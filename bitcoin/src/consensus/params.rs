@@ -81,6 +81,20 @@ impl Params {
                 allow_min_difficulty_blocks: true,
                 no_pow_retargeting: false,
             },
+            Network::Testnet4 => Params {
+                network: Network::Testnet4,
+                bip16_time: 1333238400,                 // Apr 1 2012
+                bip34_height: 1,
+                bip65_height: 1,
+                bip66_height: 1,
+                rule_change_activation_threshold: 1512, // 75%
+                miner_confirmation_window: 2016,
+                pow_limit: Work::TESTNET_MIN,
+                pow_target_spacing: 10 * 60,            // 10 minutes.
+                pow_target_timespan: 14 * 24 * 60 * 60, // 2 weeks.
+                allow_min_difficulty_blocks: true,
+                no_pow_retargeting: false,
+            },
             Network::Signet => Params {
                 network: Network::Signet,
                 bip16_time: 1333238400,                 // Apr 1 2012

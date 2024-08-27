@@ -71,6 +71,8 @@ pub enum Network {
     Bitcoin,
     /// Bitcoin's testnet network.
     Testnet,
+    /// Bitcoin's testnet4 network.
+    Testnet4,
     /// Bitcoin's signet network.
     Signet,
     /// Bitcoin's regtest network.
@@ -117,6 +119,7 @@ impl Network {
         match self {
             Network::Bitcoin => "main",
             Network::Testnet => "test",
+            Network::Testnet4 => "testnet4",
             Network::Signet => "signet",
             Network::Regtest => "regtest",
         }
@@ -137,6 +140,7 @@ impl Network {
         let network = match core_arg {
             "main" => Bitcoin,
             "test" => Testnet,
+            "testnet4" => Testnet4,
             "signet" => Signet,
             "regtest" => Regtest,
             _ => return Err(ParseNetworkError(core_arg.to_owned())),
@@ -194,6 +198,7 @@ impl FromStr for Network {
         let network = match s {
             "bitcoin" => Bitcoin,
             "testnet" => Testnet,
+            "testnet4" => Testnet4,
             "signet" => Signet,
             "regtest" => Regtest,
             _ => return Err(ParseNetworkError(s.to_owned())),
@@ -209,6 +214,7 @@ impl fmt::Display for Network {
         let s = match *self {
             Bitcoin => "bitcoin",
             Testnet => "testnet",
+            Testnet4 => "testnet4",
             Signet => "signet",
             Regtest => "regtest",
         };
@@ -252,6 +258,8 @@ impl Magic {
     pub const BITCOIN: Self = Self([0xF9, 0xBE, 0xB4, 0xD9]);
     /// Bitcoin testnet network magic bytes.
     pub const TESTNET: Self = Self([0x0B, 0x11, 0x09, 0x07]);
+    /// Bitcoin testnet4 network magic bytes.
+    pub const TESTNET4: Self = Self([0x1c, 0x16, 0x3f, 0x28]);
     /// Bitcoin signet network magic bytes.
     pub const SIGNET: Self = Self([0x0A, 0x03, 0xCF, 0x40]);
     /// Bitcoin regtest network magic bytes.
@@ -290,6 +298,7 @@ impl From<Network> for Magic {
             // Note: new network entries must explicitly be matched in `try_from` below.
             Network::Bitcoin => Magic::BITCOIN,
             Network::Testnet => Magic::TESTNET,
+            Network::Testnet4 => Magic::TESTNET4,
             Network::Signet => Magic::SIGNET,
             Network::Regtest => Magic::REGTEST,
         }
@@ -308,6 +317,7 @@ impl TryFrom<Magic> for Network {
             // Note: any new network entries must be matched against here.
             Magic::BITCOIN => Ok(Network::Bitcoin),
             Magic::TESTNET => Ok(Network::Testnet),
+            Magic::TESTNET4 => Ok(Network::Testnet4),
             Magic::SIGNET => Ok(Network::Signet),
             Magic::REGTEST => Ok(Network::Regtest),
             _ => Err(UnknownMagic(magic)),
